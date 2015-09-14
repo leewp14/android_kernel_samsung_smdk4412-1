@@ -39,6 +39,8 @@
 #endif
 #endif
 
+#define BATTERY_WEAR_CAPACITY 20
+
 /* TRIM ERROR DETECTION */
 #define USE_TRIM_ERROR_DETECTION
 
@@ -262,6 +264,11 @@ static int max17047_get_rawsoc(struct i2c_client *client)
 	return rawsoc;
 }
 
+static int compensate_soc(int wearCapacity, int socValue)
+{
+	return (((socValue - wearCapacity ) * 100) / (100 - wearCapacity));
+}
+
 static int max17047_get_soc(struct i2c_client *client)
 {
 	struct max17047_fuelgauge_data *fg_data = i2c_get_clientdata(client);
@@ -289,6 +296,9 @@ static int max17047_get_soc(struct i2c_client *client)
 
 	soc = fg_data->soc =
 		((rawsoc < empty) ? 0 : (min((rawsoc * 100 / fullsoc), 100)));
+
+	soc = compensate_soc(BATTERY_WEAR_CAPACITY, soc);
+	soc = max(soc, 0);
 
 	pr_info("%s: SOC(%d, %d / %d)\n", __func__, soc, rawsoc, fullsoc);
 	return soc;
