@@ -39,6 +39,10 @@
 #endif
 #endif
 
+#ifdef CONFIG_LEDS_AN30259A
+#include <linux/leds-an30259a.h>
+#endif
+
 #define BATTERY_WEAR_CAPACITY 20
 
 /* TRIM ERROR DETECTION */
@@ -63,7 +67,8 @@
 #define MAX17047_REG_SOC_VF		0xFF
 
 /* Polling work */
-#undef	DEBUG_FUELGAUGE_POLLING
+#define DEBUG_FUELGAUGE_POLLING
+
 #define MAX17047_POLLING_INTERVAL	10000
 
 /* adjust full soc */
@@ -71,6 +76,10 @@
 #define FULL_SOC_LOW		9700
 #define FULL_SOC_HIGH		10000
 #define KEEP_SOC_DEFAULT	50 /* 0.5% */
+
+#ifdef CONFIG_LEDS_AN30259A
+extern bool charging_led_an30259a_enable;
+#endif
 
 struct max17047_fuelgauge_data {
 	struct i2c_client		*client;
@@ -511,7 +520,7 @@ static void max17047_polling_work(struct work_struct *work)
 	struct max17047_fuelgauge_data *fg_data = container_of(work,
 						struct max17047_fuelgauge_data,
 						polling_work.work);
-	int reg;
+	/*int reg;
 	int i;
 	u8 data[2];
 	u8 buf[512];
@@ -520,14 +529,19 @@ static void max17047_polling_work(struct work_struct *work)
 	max17047_get_vfocv(fg_data->client);
 	max17047_get_avgvcell(fg_data->client);
 	max17047_get_rawsoc(fg_data->client);
-	max17047_get_soc(fg_data->client);
+	max17047_get_soc(fg_data->client);*/
 
-	pr_info("%s: VCELL(%d), VFOCV(%d), AVGVCELL(%d), RAWSOC(%d), SOC(%d)\n",
+#ifdef CONFIG_LEDS_AN30259A
+		if (charging_led_an30259a_enable)
+			enable_charging_led(fg_data->soc);
+#endif
+
+	/*pr_info("%s: VCELL(%d), VFOCV(%d), AVGVCELL(%d), RAWSOC(%d), SOC(%d)\n",
 					__func__, fg_data->vcell,
 					fg_data->vfocv, fg_data->avgvcell,
-					fg_data->rawsoc, fg_data->soc);
+					fg_data->rawsoc, fg_data->soc);*/
 
-	max17047_test_read(fg_data);
+	//max17047_test_read(fg_data);
 
 	schedule_delayed_work(&fg_data->polling_work,
 		msecs_to_jiffies(MAX17047_POLLING_INTERVAL));
@@ -935,9 +949,8 @@ static int __devinit max17047_fuelgauge_i2c_probe(struct i2c_client *client,
 	INIT_DELAYED_WORK_DEFERRABLE(&fg_data->polling_work,
 					max17047_polling_work);
 	schedule_delayed_work(&fg_data->polling_work, 0);
-#else
-	max17047_test_read(fg_data);
 #endif
+	max17047_test_read(fg_data);
 
 	pr_info("%s: probe complete\n", __func__);
 
