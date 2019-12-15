@@ -573,7 +573,7 @@ out_irq:
 	free_percpu_irq(mct_irqs[MCT_L0_IRQ], &percpu_mct_tick);
 }
 
-void __init exynos4_timer_init(void)
+static void __init exynos_timer_init(void)
 {
 #if 0
 	if (soc_is_exynos5440()) {
@@ -602,3 +602,7 @@ void __init exynos4_timer_init(void)
 	exynos4_clocksource_init();
 	exynos4_clockevent_init();
 }
+
+struct sys_timer exynos4_timer = {
+	.init		= exynos_timer_init,
+};
