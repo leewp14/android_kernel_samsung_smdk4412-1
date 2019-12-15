@@ -21,7 +21,7 @@
 #include <linux/delay.h>
 #include <linux/percpu.h>
 #include <linux/clocksource.h>
-#include <linux/sched_clock.h>
+#include <linux/sched.h>
 #include <linux/of.h>
 
 #include <asm/arch_timer.h>
