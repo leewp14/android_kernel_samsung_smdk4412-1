@@ -21,7 +21,6 @@
 #include <linux/delay.h>
 #include <linux/percpu.h>
 #include <linux/clocksource.h>
-#include <linux/sched.h>
 #include <linux/of.h>
 
 #include <asm/arch_timer.h>
@@ -197,19 +196,12 @@ struct clocksource mct_frc = {
 	.resume		= exynos4_frc_resume,
 };
 
-static u64 notrace exynos4_read_sched_clock(void)
-{
-	return _exynos4_frc_read();
-}
-
 static void __init exynos4_clocksource_init(void)
 {
 	exynos4_mct_frc_start();
 
 	if (clocksource_register_hz(&mct_frc, clk_rate))
 		panic("%s: can't register clocksource\n", mct_frc.name);
-
-	sched_clock_register(exynos4_read_sched_clock, 64, clk_rate);
 }
 
 static void exynos4_mct_comp0_stop(void)
