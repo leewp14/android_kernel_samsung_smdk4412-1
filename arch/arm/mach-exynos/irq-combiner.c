@@ -32,7 +32,7 @@ struct combiner_chip_data {
 	unsigned int parent_irq;
 };
 
-static struct combiner_chip_data combiner_data[MAX_COMBINER_NR];
+static struct combiner_chip_data combiner_data[EXYNOS4412_MAX_COMBINER_NR];
 
 static inline void __iomem *combiner_base(struct irq_data *data)
 {
@@ -114,7 +114,7 @@ static struct irq_chip combiner_chip = {
 
 void __init combiner_cascade_irq(unsigned int combiner_nr, unsigned int irq)
 {
-	if (combiner_nr >= MAX_COMBINER_NR)
+	if (combiner_nr >= EXYNOS4412_MAX_COMBINER_NR)
 		BUG();
 	if (irq_set_handler_data(irq, &combiner_data[combiner_nr]) != 0)
 		BUG();
@@ -128,7 +128,7 @@ void __init combiner_init(unsigned int combiner_nr, void __iomem *base,
 {
 	unsigned int i;
 
-	if (combiner_nr >= MAX_COMBINER_NR)
+	if (combiner_nr >= EXYNOS4412_MAX_COMBINER_NR)
 		BUG();
 
 	combiner_data[combiner_nr].base = base;
