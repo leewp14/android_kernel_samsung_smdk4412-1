@@ -29,8 +29,8 @@ static struct resource s3c_fimc0_resource[] = {
 		.flags	= IORESOURCE_MEM,
 	},
 	[1] = {
-		.start	= IRQ_FIMC0,
-		.end	= IRQ_FIMC0,
+		.start	= EXYNOS4_IRQ_FIMC0,
+		.end	= EXYNOS4_IRQ_FIMC0,
 		.flags	= IORESOURCE_IRQ,
 	},
 };
@@ -80,8 +80,8 @@ static struct resource s3c_fimc1_resource[] = {
 		.flags	= IORESOURCE_MEM,
 	},
 	[1] = {
-		.start	= IRQ_FIMC1,
-		.end	= IRQ_FIMC1,
+		.start	= EXYNOS4_IRQ_FIMC1,
+		.end	= EXYNOS4_IRQ_FIMC1,
 		.flags	= IORESOURCE_IRQ,
 	},
 };
@@ -137,8 +137,8 @@ static struct resource s3c_fimc2_resource[] = {
 		.flags	= IORESOURCE_MEM,
 	},
 	[1] = {
-		.start	= IRQ_FIMC2,
-		.end	= IRQ_FIMC2,
+		.start	= EXYNOS4_IRQ_FIMC2,
+		.end	= EXYNOS4_IRQ_FIMC2,
 		.flags	= IORESOURCE_IRQ,
 	},
 };
@@ -188,8 +188,8 @@ static struct resource s3c_fimc3_resource[] = {
 		.flags	= IORESOURCE_MEM,
 	},
 	[1] = {
-		.start	= IRQ_FIMC3,
-		.end	= IRQ_FIMC3,
+		.start	= EXYNOS4_IRQ_FIMC3,
+		.end	= EXYNOS4_IRQ_FIMC3,
 		.flags	= IORESOURCE_IRQ,
 	},
 };

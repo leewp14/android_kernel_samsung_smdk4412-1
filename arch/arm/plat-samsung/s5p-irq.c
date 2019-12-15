@@ -1,5 +1,4 @@
-/* arch/arm/plat-s5p/irq.c
- *
+/*
  * Copyright (c) 2009 Samsung Electronics Co., Ltd.
  *		http://www.samsung.com/
  *
@@ -15,7 +14,7 @@
 #include <linux/irq.h>
 #include <linux/io.h>
 
-#include <asm/hardware/vic.h>
+#include <linux/irqchip/arm-vic.h>
 
 #include <linux/serial_core.h>
 #include <mach/map.h>

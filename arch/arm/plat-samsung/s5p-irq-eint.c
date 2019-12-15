@@ -1,5 +1,4 @@
-/* linux/arch/arm/plat-s5p/irq-eint.c
- *
+/*
  * Copyright (c) 2010 Samsung Electronics Co., Ltd.
  *		http://www.samsung.com
  *
@@ -17,7 +16,7 @@
 #include <linux/sysdev.h>
 #include <linux/gpio.h>
 
-#include <asm/hardware/vic.h>
+#include <linux/irqchip/arm-vic.h>
 
 #include <plat/regs-irqtype.h>
 
